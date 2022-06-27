@@ -369,28 +369,28 @@ class DropdownFormFieldState<T> extends State<DropdownFormField>
   _onKeyPressed(KeyEvent event) {
     if (event is KeyDownEvent) {
       if (event.logicalKey == LogicalKeyboardKey.enter) {
-        if (_searchFocusNode.hasFocus) {
-          _toggleOverlay();
-        } else {
-          _toggleOverlay();
-        }
+        _toggleOverlay();
+        return KeyEventResult.ignored;
       } else if (event.logicalKey == LogicalKeyboardKey.escape) {
         _removeOverlay();
+        return KeyEventResult.handled;
       } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
         int v = _listItemFocusedPosition;
         v++;
         if (v >= _options!.length) v = 0;
         _listItemFocusedPosition = v;
         _listItemsValueNotifier.value = List<T>.from(_options ?? []);
+        return KeyEventResult.handled;
       } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
         int v = _listItemFocusedPosition;
         v--;
         if (v < 0) v = _options!.length - 1;
         _listItemFocusedPosition = v;
         _listItemsValueNotifier.value = List<T>.from(_options ?? []);
+        return KeyEventResult.handled;
       }
     }
-    return KeyEventResult.handled;
+    return KeyEventResult.ignored;
   }
 
   _search(String str) async {
